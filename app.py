@@ -39,7 +39,7 @@ RESEND_API_KEY = os.environ.get("RESEND_API_KEY")
 SENDER_EMAIL = os.environ.get("SENDER_EMAIL", "noreply@lre-certif.fr")
 
 if RESEND_API_KEY:
-    resend.api_key = RESEND_API_KEY
+    resend.api_key =re_5AGY5RvH_7KQfAE9mFVg3rNHabrb84DnV
 
 # ---------------------------------------------------------------------------
 # Données factices
