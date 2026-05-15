@@ -1,0 +1,546 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Espace Client - BNP PARIBAS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    :root {
+      --brand-green: #00915a;
+      --brand-green-dark: #006a40;
+      --brand-green-light: #e7f5ee;
+      --gray-50: #f8faf9;
+      --gray-100: #f1f4f3;
+      --gray-200: #e5e8e7;
+      --gray-300: #d1d6d4;
+      --gray-400: #9ca3a0;
+      --gray-500: #6b736f;
+      --gray-700: #3f4744;
+      --gray-900: #131816;
+      --red: #c0392b;
+      --green-soft: #27ae60;
+      --shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--gray-50);
+      color: var(--gray-900);
+      min-height: 100vh;
+      font-size: 14px;
+    }
+    a { text-decoration: none; color: inherit; }
+    .app { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
+    .sidebar { background: #ffffff; border-right: 1px solid var(--gray-200); padding: 24px 16px; display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+    .brand { display: flex; align-items: center; gap: 10px; padding: 0 8px 24px; border-bottom: 1px solid var(--gray-100); margin-bottom: 20px; }
+    .brand-mark { width: 36px; height: 36px; background: var(--brand-green); border-radius: 8px; display: grid; place-items: center; color: #fff; font-weight: 800; }
+    .brand-text { font-weight: 700; color: var(--brand-green-dark); }
+    .nav { display: flex; flex-direction: column; gap: 2px; flex: 1; }
+    .nav-item { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 8px; color: var(--gray-700); font-size: 14px; font-weight: 500; transition: background 0.12s, color 0.12s; cursor: pointer; }
+    .nav-item i { width: 20px; text-align: center; font-size: 14px; }
+    .nav-item:hover { background: var(--gray-100); color: var(--brand-green-dark); }
+    .nav-item.active { background: var(--brand-green-light); color: var(--brand-green-dark); font-weight: 600; }
+    .nav-item.active i { color: var(--brand-green); }
+    .sidebar-footer { padding-top: 16px; border-top: 1px solid var(--gray-100); margin-top: 16px; }
+    .logout-btn { display: flex; align-items: center; gap: 10px; width: 100%; padding: 10px 12px; border-radius: 8px; background: none; border: 1px solid var(--gray-200); color: var(--gray-700); font-size: 13px; font-weight: 500; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+    .logout-btn:hover { border-color: var(--brand-green); color: var(--brand-green); }
+    .content { padding: 0; }
+    .topbar { background: #ffffff; border-bottom: 1px solid var(--gray-200); padding: 16px 32px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 10; }
+    .topbar h1 { font-size: 18px; font-weight: 600; }
+    .topbar-right { display: flex; align-items: center; gap: 16px; }
+    .topbar-right .pill { background: var(--brand-green-light); color: var(--brand-green-dark); padding: 6px 12px; border-radius: 999px; font-size: 12px; font-weight: 500; }
+    .avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--brand-green); color: #fff; display: grid; place-items: center; font-weight: 600; }
+    .body { padding: 32px; max-width: 1280px; }
+    .flash { padding: 12px 16px; border-radius: 10px; margin-bottom: 16px; font-size: 13.5px; display: flex; align-items: center; gap: 10px; }
+    .flash.success { background: var(--brand-green-light); color: var(--brand-green-dark); }
+    .flash.error { background: #fdecea; color: var(--red); }
+    .section-title { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+    .section-subtitle { color: var(--gray-500); font-size: 13.5px; margin-bottom: 24px; }
+    .card { background: #ffffff; border: 1px solid var(--gray-200); border-radius: 14px; padding: 24px; box-shadow: var(--shadow); }
+    .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .card-header h3 { font-size: 15px; font-weight: 600; }
+    .card-header .link { color: var(--brand-green); font-size: 13px; font-weight: 500; }
+    .card-header .link:hover { text-decoration: underline; }
+    .balance-banner { background: linear-gradient(135deg, #00915a 0%, #006a40 100%); color: #ffffff; border-radius: 16px; padding: 28px 32px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px; }
+    .balance-banner .label { font-size: 13px; opacity: 0.85; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.08em; }
+    .balance-banner .amount { font-size: 36px; font-weight: 700; letter-spacing: -0.02em; }
+    .balance-banner .actions { display: flex; gap: 12px; }
+    .balance-banner .btn-ghost { background: rgba(255,255,255,0.15); color: #fff; border: 1px solid rgba(255,255,255,0.25); padding: 10px 18px; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; font-family: inherit; transition: background 0.15s; }
+    .balance-banner .btn-ghost:hover { background: rgba(255,255,255,0.25); }
+    .accounts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-bottom: 24px; }
+    .account-card { background: #ffffff; border: 1px solid var(--gray-200); border-radius: 14px; padding: 20px; transition: border 0.15s, transform 0.15s; cursor: pointer; }
+    .account-card:hover { border-color: var(--brand-green); transform: translateY(-2px); }
+    .account-card .type { display: inline-block; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--brand-green); background: var(--brand-green-light); padding: 4px 10px; border-radius: 999px; margin-bottom: 10px; font-weight: 600; }
+    .account-card .name { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+    .account-card .iban { font-size: 12px; color: var(--gray-400); letter-spacing: 0.04em; margin-bottom: 14px; }
+    .account-card .balance { font-size: 22px; font-weight: 700; color: var(--gray-900); letter-spacing: -0.01em; }
+    .two-col { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
+    @media (max-width: 1024px) { .two-col { grid-template-columns: 1fr; } }
+    table { width: 100%; border-collapse: collapse; }
+    th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--gray-400); padding: 10px 12px; border-bottom: 1px solid var(--gray-200); font-weight: 600; }
+    td { padding: 14px 12px; border-bottom: 1px solid var(--gray-100); font-size: 13.5px; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--gray-50); }
+    .amount-pos { color: var(--green-soft); font-weight: 600; }
+    .amount-neg { color: var(--gray-900); font-weight: 600; }
+    .badge { display: inline-block; padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 500; background: var(--gray-100); color: var(--gray-700); }
+    .badge.green { background: var(--brand-green-light); color: var(--brand-green-dark); }
+    .quick-actions { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
+    .quick-action { background: #ffffff; border: 1px solid var(--gray-200); border-radius: 12px; padding: 18px 12px; text-align: center; cursor: pointer; transition: all 0.15s; }
+    .quick-action:hover { border-color: var(--brand-green); background: var(--brand-green-light); }
+    .quick-action i { font-size: 20px; color: var(--brand-green); margin-bottom: 8px; }
+    .quick-action div { font-size: 13px; font-weight: 500; color: var(--gray-700); }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 720px) { .form-grid { grid-template-columns: 1fr; } }
+    .field { display: flex; flex-direction: column; }
+    .field label { font-size: 12.5px; font-weight: 500; color: var(--gray-700); margin-bottom: 6px; }
+    .field input, .field select, .field textarea { padding: 11px 13px; border: 1.5px solid var(--gray-200); border-radius: 9px; font-size: 14px; font-family: inherit; transition: border 0.15s, box-shadow 0.15s; background: #fff; }
+    .field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--brand-green); box-shadow: 0 0 0 3px var(--brand-green-light); }
+    .field.full { grid-column: 1 / -1; }
+    .btn { background: var(--brand-green); color: #fff; border: none; padding: 12px 22px; border-radius: 9px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; transition: background 0.15s, transform 0.05s; display: inline-flex; align-items: center; gap: 8px; }
+    .btn:hover { background: var(--brand-green-dark); }
+    .btn:active { transform: scale(0.99); }
+    .btn-outline { background: #fff; color: var(--brand-green); border: 1.5px solid var(--brand-green); }
+    .btn-outline:hover { background: var(--brand-green-light); }
+    .section { display: none; }
+    .section.active { display: block; }
+    .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+    .service-tile { background: #fff; border: 1px solid var(--gray-200); border-radius: 12px; padding: 20px; transition: all 0.15s; cursor: pointer; }
+    .service-tile:hover { border-color: var(--brand-green); transform: translateY(-2px); }
+    .service-tile .icn { width: 40px; height: 40px; background: var(--brand-green-light); color: var(--brand-green); border-radius: 10px; display: grid; place-items: center; margin-bottom: 12px; font-size: 16px; }
+    .service-tile h4 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+    .service-tile p { font-size: 12.5px; color: var(--gray-500); }
+    .msg-row { display: flex; align-items: center; gap: 14px; padding: 14px 12px; border-bottom: 1px solid var(--gray-100); cursor: pointer; transition: background 0.12s; }
+    .msg-row:hover { background: var(--gray-50); }
+    .msg-row:last-child { border-bottom: none; }
+    .msg-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--brand-green); flex-shrink: 0; }
+    .msg-dot.read { background: var(--gray-300); }
+    .msg-body { flex: 1; }
+    .msg-body .from { font-size: 13px; color: var(--gray-500); margin-bottom: 2px; }
+    .msg-body .subject { font-size: 14px; font-weight: 500; }
+    .msg-date { font-size: 12px; color: var(--gray-400); }
+    .progress { width: 100%; height: 6px; background: var(--gray-100); border-radius: 3px; overflow: hidden; margin-top: 6px; }
+    .progress .bar { height: 100%; background: var(--brand-green); }
+    .map-placeholder { height: 280px; background: linear-gradient(135deg, var(--brand-green-light) 0%, #ffffff 100%); border: 1px solid var(--gray-200); border-radius: 12px; display: grid; place-items: center; color: var(--brand-green-dark); font-size: 14px; position: relative; overflow: hidden; }
+    .map-placeholder::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(to right, rgba(0,145,90,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,145,90,0.06) 1px, transparent 1px); background-size: 24px 24px; }
+    .map-pin { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .map-pin i { font-size: 32px; color: var(--brand-green); }
+    @media (max-width: 880px) {
+      .app { grid-template-columns: 1fr; }
+      .sidebar { position: relative; height: auto; flex-direction: row; overflow-x: auto; padding: 12px; }
+      .nav { flex-direction: row; flex-wrap: nowrap; }
+      .brand, .sidebar-footer { display: none; }
+      .body { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">EB</div>
+      <div class="brand-text">BNP PARIBAS</div>
+    </div>
+
+    <nav class="nav">
+      {% for s in sections %}
+        <a href="{{ url_for('dashboard', section=s.id) }}"
+           class="nav-item {% if active_section == s.id %}active{% endif %}">
+          <i class="fa-solid fa-{{ s.icone }}"></i>
+          <span>{{ s.label }}</span>
+        </a>
+      {% endfor %}
+    </nav>
+
+    <div class="sidebar-footer">
+      <a href="#">
+        <button class="logout-btn" style="border-color: var(--brand-green); color: var(--brand-green); margin-bottom: 8px;">
+          <i class="fa-solid fa-download"></i> Télécharger le code
+        </button>
+      </a>
+      <a href="{{ url_for('logout') }}">
+        <button class="logout-btn">
+          <i class="fa-solid fa-right-from-bracket"></i> Déconnexion
+        </button>
+      </a>
+    </div>
+  </aside>
+
+  <main class="content">
+    <header class="topbar">
+      <h1>
+        {% for s in sections %}{% if s.id == active_section %}{{ s.label }}{% endif %}{% endfor %}
+      </h1>
+      <div class="topbar-right">
+        <span class="pill"><i class="fa-solid fa-circle-check"></i> Session sécurisée</span>
+        <span style="font-size:13px; color:var(--gray-700);">{{ demo_user.nom }}</span>
+        <div class="avatar">{{ demo_user.nom[0] }}{{ demo_user.nom.split()[-1][0] }}</div>
+      </div>
+    </header>
+
+    <div class="body">
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, msg in messages %}
+          <div class="flash {{ category }}">
+            <i class="fa-solid fa-{% if category == 'success' %}circle-check{% else %}circle-exclamation{% endif %}"></i>
+            {{ msg }}
+          </div>
+        {% endfor %}
+      {% endwith %}
+
+      {% if active_section == 'accueil' %}
+      <div class="section active">
+        <h2 class="section-title">Bonjour {{ demo_user.nom.split()[0] }} 👋</h2>
+        <p class="section-subtitle">Voici une vue d'ensemble de vos comptes au {{ today }}.</p>
+
+        <div class="balance-banner">
+          <div>
+            <div class="label">Solde global</div>
+            <div class="amount">{{ "%.2f"|format(total_solde) }} €</div>
+          </div>
+          <div class="actions">
+            <a href="{{ url_for('dashboard', section='virement') }}"><button class="btn-ghost"><i class="fa-solid fa-paper-plane"></i> Virement</button></a>
+            <a href="{{ url_for('dashboard', section='releve') }}"><button class="btn-ghost"><i class="fa-solid fa-file-lines"></i> Relevé</button></a>
+          </div>
+        </div>
+
+        <h3 style="margin-bottom:12px; font-size:15px;">Mes comptes</h3>
+        <div class="accounts-grid">
+          {% for c in comptes %}
+          <div class="account-card">
+            <span class="type">{{ c.type }}</span>
+            <div class="name">{{ c.libelle }}</div>
+            <div class="iban">{{ c.iban }}</div>
+            <div class="balance">{{ "%.2f"|format(c.solde) }} €</div>
+          </div>
+          {% endfor %}
+        </div>
+
+        <div class="two-col" style="margin-top:24px;">
+          <div class="card">
+            <div class="card-header">
+              <h3>Dernières opérations</h3>
+              <a class="link" href="{{ url_for('dashboard', section='releve') }}">Voir tout →</a>
+            </div>
+            <table>
+              <thead><tr><th>Date</th><th>Libellé</th><th style="text-align:right;">Montant</th></tr></thead>
+              <tbody>
+                {% for op in operations[:5] %}
+                <tr>
+                  <td style="color:var(--gray-500);">{{ op.date }}</td>
+                  <td>{{ op.libelle }}</td>
+                  <td style="text-align:right;" class="{% if op.montant > 0 %}amount-pos{% else %}amount-neg{% endif %}">{{ "%+.2f"|format(op.montant) }} €</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><h3>Accès rapides</h3></div>
+            <div class="quick-actions">
+              <a href="{{ url_for('dashboard', section='virement') }}"><div class="quick-action"><i class="fa-solid fa-paper-plane"></i><div>Virement</div></div></a>
+              <a href="{{ url_for('dashboard', section='beneficiaires') }}"><div class="quick-action"><i class="fa-solid fa-users"></i><div>Bénéficiaires</div></div></a>
+              <a href="{{ url_for('dashboard', section='epargne') }}"><div class="quick-action"><i class="fa-solid fa-piggy-bank"></i><div>Épargne</div></div></a>
+              <a href="{{ url_for('dashboard', section='credits') }}"><div class="quick-action"><i class="fa-solid fa-landmark"></i><div>Crédits</div></div></a>
+              <a href="{{ url_for('dashboard', section='assurances') }}"><div class="quick-action"><i class="fa-solid fa-shield"></i><div>Assurances</div></div></a>
+              <a href="{{ url_for('dashboard', section='messagerie') }}"><div class="quick-action"><i class="fa-solid fa-envelope"></i><div>Messagerie</div></div></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+      {% if active_section == 'releve' %}
+      <div class="section active">
+        <h2 class="section-title">Relevé de compte</h2>
+        <p class="section-subtitle">Compte de Chèques — FR76 3000 4000 5000 0001 2345 678</p>
+        <div class="card">
+          <div class="card-header">
+            <h3>Opérations du mois</h3>
+            <span class="badge green">{{ operations|length }} opérations</span>
+          </div>
+          <table>
+            <thead><tr><th>Date</th><th>Libellé</th><th>Catégorie</th><th style="text-align:right;">Montant</th></tr></thead>
+            <tbody>
+              {% for op in operations %}
+              <tr>
+                <td style="color:var(--gray-500);">{{ op.date }}</td>
+                <td>{{ op.libelle }}</td>
+                <td><span class="badge">{{ op.categorie }}</span></td>
+                <td style="text-align:right;" class="{% if op.montant > 0 %}amount-pos{% else %}amount-neg{% endif %}">{{ "%+.2f"|format(op.montant) }} €</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      {% endif %}
+
+      {% if active_section == 'beneficiaires' %}
+      <div class="section active">
+        <h2 class="section-title">Mes bénéficiaires</h2>
+        <p class="section-subtitle">Gérez les comptes vers lesquels vous pouvez effectuer des virements.</p>
+        <div class="card">
+          <div class="card-header">
+            <h3>{{ beneficiaires|length }} bénéficiaires enregistrés</h3>
+            <button class="btn"><i class="fa-solid fa-plus"></i> Ajouter</button>
+          </div>
+          <table>
+            <thead><tr><th>Nom</th><th>IBAN</th><th>Banque</th><th></th></tr></thead>
+            <tbody>
+              {% for b in beneficiaires %}
+              <tr>
+                <td style="font-weight:500;">{{ b.nom }}</td>
+                <td style="font-family:monospace; font-size:12.5px; color:var(--gray-500);">{{ b.iban }}</td>
+                <td>{{ b.banque }}</td>
+                <td style="text-align:right;"><a href="{{ url_for('dashboard', section='virement') }}" style="color:var(--brand-green); font-weight:500;">Virer →</a></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      {% endif %}
+
+      {% if active_section == 'virement' %}
+      <div class="section active">
+        <h2 class="section-title">Effectuer un virement</h2>
+        <p class="section-subtitle">Une confirmation par email sera envoyée après validation.</p>
+        <div class="two-col">
+          <div class="card">
+            <div class="card-header"><h3>Nouveau virement</h3></div>
+            <form method="POST" action="{{ url_for('virement') }}">
+              <div class="form-grid">
+                <div class="field full">
+                  <label for="beneficiaire">Bénéficiaire</label>
+                  <select id="beneficiaire" name="beneficiaire" required>
+                    <option value="">— Sélectionner —</option>
+                    {% for b in beneficiaires %}
+                      <option value="{{ b.nom }}" data-iban="{{ b.iban }}">{{ b.nom }} ({{ b.banque }})</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="field full">
+                  <label for="iban">IBAN du bénéficiaire</label>
+                  <input type="text" id="iban" name="iban" placeholder="FR76 ..." required />
+                </div>
+                <div class="field">
+                  <label for="montant">Montant (€)</label>
+                  <input type="number" step="0.01" min="0.01" id="montant" name="montant" placeholder="0,00" required />
+                </div>
+                <div class="field">
+                  <label for="email">Email de confirmation</label>
+                  <input type="email" id="email" name="email" placeholder="{{ demo_user.email }}" />
+                </div>
+                <div class="field full">
+                  <label for="motif">Motif (optionnel)</label>
+                  <input type="text" id="motif" name="motif" placeholder="Ex: Loyer février 2026" />
+                </div>
+                <div class="field full" style="display:flex; gap:12px;">
+                  <button type="submit" class="btn"><i class="fa-solid fa-paper-plane"></i> Valider le virement</button>
+                  <button type="reset" class="btn btn-outline">Réinitialiser</button>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="card">
+            <div class="card-header"><h3>Compte à débiter</h3></div>
+            <div style="padding:16px; background:var(--gray-50); border-radius:10px; margin-bottom:16px;">
+              <div style="font-size:13px; color:var(--gray-500); margin-bottom:4px;">Compte de Chèques</div>
+              <div style="font-size:20px; font-weight:700;">{{ "%.2f"|format(comptes[0].solde) }} €</div>
+            </div>
+            <div style="font-size:12.5px; color:var(--gray-500); line-height:1.6;">
+              <p><i class="fa-solid fa-shield" style="color:var(--brand-green); margin-right:6px;"></i> Vos virements sont sécurisés par authentification forte.</p>
+              <p style="margin-top:8px;"><i class="fa-solid fa-clock" style="color:var(--brand-green); margin-right:6px;"></i> Délai de traitement : J+1 ouvré (SEPA standard).</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+      {% if active_section == 'prelevements' %}
+      <div class="section active">
+        <h2 class="section-title">Prélèvements automatiques</h2>
+        <p class="section-subtitle">Mandats SEPA actifs sur votre compte courant.</p>
+        <div class="card">
+          <div class="card-header">
+            <h3>{{ prelevements|length }} mandats actifs</h3>
+            <span class="badge green">Total mensuel : {{ "%.2f"|format(prelevements|sum(attribute='montant')) }} €</span>
+          </div>
+          <table>
+            <thead><tr><th>Créancier</th><th>Fréquence</th><th>Prochain prélèvement</th><th>Statut</th><th style="text-align:right;">Montant</th></tr></thead>
+            <tbody>
+              {% for p in prelevements %}
+              <tr>
+                <td style="font-weight:500;">{{ p.creancier }}</td>
+                <td style="color:var(--gray-500);">{{ p.frequence }}</td>
+                <td style="color:var(--gray-500);">{{ p.prochain }}</td>
+                <td><span class="badge green">{{ p.statut }}</span></td>
+                <td style="text-align:right; font-weight:600;">{{ "%.2f"|format(p.montant) }} €</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      {% endif %}
+
+      {% if active_section == 'epargne' %}
+      <div class="section active">
+        <h2 class="section-title">Mon épargne</h2>
+        <p class="section-subtitle">Suivez l'évolution de vos placements.</p>
+        <div class="accounts-grid">
+          {% for e in epargne %}
+          <div class="account-card">
+            <span class="type">Épargne</span>
+            <div class="name">{{ e.produit }}</div>
+            <div class="iban">Taux : {{ e.taux }}</div>
+            <div class="balance">{{ "%.2f"|format(e.solde) }} €</div>
+            {% if e.plafond %}
+              <div class="progress"><div class="bar" style="width: {{ (e.solde / e.plafond * 100)|round(0) }}%;"></div></div>
+              <div style="font-size:11.5px; color:var(--gray-400); margin-top:4px;">Plafond : {{ "%.0f"|format(e.plafond) }} €</div>
+            {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+      {% if active_section == 'credits' %}
+      <div class="section active">
+        <h2 class="section-title">Mes crédits</h2>
+        <p class="section-subtitle">Suivi de vos emprunts en cours.</p>
+        {% for c in credits %}
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-header">
+            <h3>{{ c.type }}</h3>
+            <span class="badge green">Taux {{ c.taux }}</span>
+          </div>
+          <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(160px,1fr)); gap:20px;">
+            <div><div style="font-size:12px; color:var(--gray-400); margin-bottom:4px;">Capital initial</div><div style="font-size:18px; font-weight:600;">{{ "%.0f"|format(c.capital_initial) }} €</div></div>
+            <div><div style="font-size:12px; color:var(--gray-400); margin-bottom:4px;">Capital restant dû</div><div style="font-size:18px; font-weight:600; color:var(--brand-green-dark);">{{ "%.2f"|format(c.restant) }} €</div></div>
+            <div><div style="font-size:12px; color:var(--gray-400); margin-bottom:4px;">Mensualité</div><div style="font-size:18px; font-weight:600;">{{ "%.2f"|format(c.mensualite) }} €</div></div>
+            <div><div style="font-size:12px; color:var(--gray-400); margin-bottom:4px;">Fin du prêt</div><div style="font-size:18px; font-weight:600;">{{ c.fin }}</div></div>
+          </div>
+          <div class="progress" style="margin-top:16px;"><div class="bar" style="width: {{ (100 - (c.restant / c.capital_initial * 100))|round(0) }}%;"></div></div>
+          <div style="font-size:12px; color:var(--gray-400); margin-top:6px;">Remboursé : {{ (100 - (c.restant / c.capital_initial * 100))|round(0) }}%</div>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      {% if active_section == 'assurances' %}
+      <div class="section active">
+        <h2 class="section-title">Mes assurances</h2>
+        <p class="section-subtitle">Vos contrats de prévoyance et garanties.</p>
+        <div class="card">
+          <table>
+            <thead><tr><th>Contrat</th><th>Couverture</th><th>Échéance</th><th style="text-align:right;">Cotisation</th></tr></thead>
+            <tbody>
+              {% for a in assurances %}
+              <tr>
+                <td style="font-weight:500;">{{ a.contrat }}</td>
+                <td style="color:var(--gray-500);">{{ a.couverture }}</td>
+                <td><span class="badge">{{ a.echeance }}</span></td>
+                <td style="text-align:right; font-weight:600;">{{ "%.2f"|format(a.cotisation) }} €/mois</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      {% endif %}
+
+      {% if active_section == 'services' %}
+      <div class="section active">
+        <h2 class="section-title">Services</h2>
+        <p class="section-subtitle">Tous vos services bancaires à portée de clic.</p>
+        <div class="services-grid">
+          {% for s in services %}
+          <div class="service-tile">
+            <div class="icn"><i class="fa-solid fa-{{ s.icone }}"></i></div>
+            <h4>{{ s.nom }}</h4>
+            <p>{{ s.description }}</p>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+      {% if active_section == 'domiciliation' %}
+      <div class="section active">
+        <h2 class="section-title">Domiciliation bancaire</h2>
+        <p class="section-subtitle">Votre agence et vos coordonnées bancaires.</p>
+        <div class="two-col">
+          <div class="card">
+            <div class="card-header"><h3>Mon agence</h3></div>
+            <div style="font-size:18px; font-weight:600; margin-bottom:8px;">{{ demo_user.agence }}</div>
+            <p style="color:var(--gray-500); line-height:1.7; font-size:13.5px;">
+              12 Place de l'Opéra<br/>
+              75009 Paris<br/>
+              France
+            </p>
+            <div style="margin-top:16px; padding-top:16px; border-top:1px solid var(--gray-100); font-size:13px; line-height:1.8;">
+              <div><strong>Téléphone :</strong> 01 23 45 67 89</div>
+              <div><strong>Horaires :</strong> Lun-Ven 9h00-18h00 · Sam 9h-13h</div>
+              <div><strong>Conseiller :</strong> M. Lefebvre</div>
+            </div>
+            <div style="margin-top:20px; display:flex; gap:8px;">
+              <button class="btn"><i class="fa-solid fa-calendar"></i> Prendre RDV</button>
+              <button class="btn btn-outline"><i class="fa-solid fa-phone"></i> Contacter</button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><h3>RIB / IBAN</h3></div>
+            <div style="background:var(--gray-50); padding:16px; border-radius:10px; font-family:monospace; font-size:13px; line-height:1.8;">
+              <div><strong>Titulaire :</strong> {{ demo_user.nom }}</div>
+              <div><strong>IBAN :</strong> {{ comptes[0].iban }}</div>
+              <div><strong>BIC :</strong> BNPAFRPPXXX</div>
+            </div>
+            <div class="map-placeholder" style="margin-top:16px;">
+              <div class="map-pin">
+                <i class="fa-solid fa-location-dot"></i>
+                <span>{{ demo_user.agence }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+      {% if active_section == 'messagerie' %}
+      <div class="section active">
+        <h2 class="section-title">Messagerie sécurisée</h2>
+        <p class="section-subtitle">Échangez en toute confidentialité avec votre conseiller.</p>
+        <div class="card">
+          <div class="card-header">
+            <h3>Boîte de réception</h3>
+            <button class="btn"><i class="fa-solid fa-pen-to-square"></i> Nouveau message</button>
+          </div>
+          {% for m in messages %}
+          <div class="msg-row">
+            <div class="msg-dot {% if m.lu %}read{% endif %}"></div>
+            <div class="msg-body">
+              <div class="from">{{ m.de }}</div>
+              <div class="subject">{{ m.sujet }}</div>
+            </div>
+            <div class="msg-date">{{ m.date }}</div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+    </div>
+  </main>
+</div>
+</body>
+</html>

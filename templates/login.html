@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Accéder à mes comptes en ligne - BNP Paribas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    :root {
+      --brand-green: #00915a;
+      --brand-green-dark: #006a40;
+      --brand-green-light: #e7f5ee;
+      --gray-50: #f8faf9;
+      --gray-100: #f1f4f3;
+      --gray-200: #e5e8e7;
+      --gray-400: #9ca3a0;
+      --gray-700: #3f4744;
+      --gray-900: #131816;
+      --red: #c0392b;
+      --shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--gray-50);
+      color: var(--gray-900);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header */
+    .topbar {
+      background: #ffffff;
+      border-bottom: 1px solid var(--gray-200);
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--brand-green-dark);
+    }
+    .logo-mark {
+      width: 36px; height: 36px;
+      background: var(--brand-green);
+      border-radius: 8px;
+      display: grid; place-items: center;
+      color: #fff;
+      font-weight: 800;
+    }
+    .topbar-links a {
+      color: var(--gray-700);
+      text-decoration: none;
+      font-size: 14px;
+      margin-left: 24px;
+      transition: color 0.15s;
+    }
+    .topbar-links a:hover { color: var(--brand-green); }
+
+    /* Main */
+    .main {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      max-width: 1280px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 48px 32px;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .hero h1 {
+      font-size: 44px;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--gray-900);
+      margin-bottom: 16px;
+    }
+    .hero h1 .accent { color: var(--brand-green); }
+    .hero p {
+      font-size: 17px;
+      color: var(--gray-700);
+      margin-bottom: 32px;
+      line-height: 1.6;
+      max-width: 460px;
+    }
+    .hero-features {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .hero-features div {
+      display: flex; align-items: center; gap: 12px;
+      font-size: 15px; color: var(--gray-700);
+    }
+    .hero-features i {
+      width: 32px; height: 32px;
+      background: var(--brand-green-light);
+      color: var(--brand-green);
+      border-radius: 50%;
+      display: grid; place-items: center;
+      font-size: 13px;
+    }
+
+    /* Login card */
+    .login-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--gray-200);
+      max-width: 440px;
+      width: 100%;
+      justify-self: end;
+    }
+    .login-card h2 {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+    .login-card .subtitle {
+      color: var(--gray-400);
+      font-size: 14px;
+      margin-bottom: 28px;
+    }
+
+    .field { margin-bottom: 20px; }
+    .field label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--gray-700);
+      margin-bottom: 8px;
+    }
+    .field input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: 10px;
+      font-size: 15px;
+      font-family: inherit;
+      transition: border 0.15s, box-shadow 0.15s;
+      background: #fff;
+    }
+    .field input:focus {
+      outline: none;
+      border-color: var(--brand-green);
+      box-shadow: 0 0 0 4px var(--brand-green-light);
+    }
+
+    .options {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 24px; font-size: 13px;
+    }
+    .options label { color: var(--gray-700); cursor: pointer; }
+    .options a {
+      color: var(--brand-green); text-decoration: none;
+      font-weight: 500;
+    }
+    .options a:hover { text-decoration: underline; }
+
+    .btn-primary {
+      width: 100%;
+      background: var(--brand-green);
+      color: #fff;
+      border: none;
+      padding: 14px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.05s;
+      font-family: inherit;
+    }
+    .btn-primary:hover { background: var(--brand-green-dark); }
+    .btn-primary:active { transform: scale(0.99); }
+
+    .alert {
+      background: #fdecea;
+      color: var(--red);
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-size: 13px;
+      margin-bottom: 20px;
+      display: flex; align-items: center; gap: 10px;
+    }
+
+    .demo-hint {
+      margin-top: 28px;
+      padding: 14px;
+      background: var(--brand-green-light);
+      border-radius: 10px;
+      font-size: 12.5px;
+      color: var(--brand-green-dark);
+      line-height: 1.6;
+    }
+    .demo-hint strong { display: block; margin-bottom: 4px; }
+
+    /* Footer */
+    .footer {
+      background: #fff;
+      border-top: 1px solid var(--gray-200);
+      padding: 20px 32px;
+      text-align: center;
+      font-size: 12.5px;
+      color: var(--gray-400);
+    }
+
+    @media (max-width: 880px) {
+      .main { grid-template-columns: 1fr; gap: 32px; padding: 32px 20px; }
+      .login-card { justify-self: stretch; padding: 28px; }
+      .hero h1 { font-size: 32px; }
+      .topbar-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar" data-testid="topbar">
+    <div class="logo">
+      <div class="logo-mark">EB</div>
+      <span>BNP PARIBAS</span>
+    </div>
+    <nav class="topbar-links">
+      <a href="#" data-testid="nav-particuliers">Particuliers</a>
+      <a href="#" data-testid="nav-pros">Professionnels</a>
+      <a href="#" data-testid="nav-aide">Aide</a>
+    </nav>
+  </header>
+
+  <main class="main">
+    <section class="hero">
+      <h1>Votre <span class="accent">banque en ligne</span><br />simple et sécurisée.</h1>
+      <p>Accédez à vos comptes, réalisez vos virements et pilotez votre épargne en quelques clics, où que vous soyez.</p>
+      <div class="hero-features">
+        <div><i class="fa-solid fa-shield-halved"></i> Authentification sécurisée 3D Secure</div>
+        <div><i class="fa-solid fa-bolt"></i> Virements instantanés vers vos bénéficiaires</div>
+        <div><i class="fa-solid fa-chart-line"></i> Pilotage de votre épargne en temps réel</div>
+      </div>
+    </section>
+
+    <section class="login-card" data-testid="login-card">
+      <h2>Connexion</h2>
+      <p class="subtitle">Saisissez vos identifiants pour accéder à votre espace.</p>
+
+      {% if error %}
+        <div class="alert" data-testid="login-error"><i class="fa-solid fa-circle-exclamation"></i> {{ error }}</div>
+      {% endif %}
+
+      <form method="POST" action="{{ url_for('login') }}" data-testid="login-form">
+        <div class="field">
+          <label for="identifiant">Identifiant client</label>
+          <input type="text" id="identifiant" name="identifiant" placeholder="7 à 10 chiffres" required data-testid="login-identifiant-input" />
+        </div>
+        <div class="field">
+          <label for="password">Code secret</label>
+          <input type="password" id="password" name="password" placeholder="••••••••" required data-testid="login-password-input" />
+        </div>
+        <div class="options">
+          <label><input type="checkbox" /> Se souvenir de moi</label>
+          <a href="#" data-testid="forgot-link">Code oublié ?</a>
+        </div>
+        <button type="submit" class="btn-primary" data-testid="login-submit-button">
+          Se connecter <i class="fa-solid fa-arrow-right" style="margin-left:6px;"></i>
+        </button>
+      </form>
+
+      <div class="demo-hint" data-testid="demo-hint">
+        <strong><i class="fa-solid fa-circle-info"></i>Si une tierce personne ou un représentant BNP Paribas vous demande de vous connecter ou de fournir des informations, il s’agit systématiquement d’une fraude, ne vous connectez en aucun cas.
+
+Consulter tous nos conseils sécurité et fraude.</strong>
+        Identifiant : <strong>{{ demo.identifiant }}</strong> &nbsp;·&nbsp; Mot de passe : <strong>{{ demo.password }}</strong>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    © 2026 Espace Banque · Démo Flask · Mentions légales · Politique de confidentialité
+  </footer>
+</body>
+</html>
+
